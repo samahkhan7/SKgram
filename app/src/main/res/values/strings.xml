@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">SKgram</string>
+
+    <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+
+    <!-- Paste BOTH strings as required -->
+    <string name="back4app_app_id">cHtyyHCl5kBhRE0VWtEduh20M0CR98Yas8a1zhm2</string>
+    <string name="back4app_client_key">LE8pFbTGkiTA0uHz2QRF2Te5Wege9Is35kTpqv2D</string>
 </resources>

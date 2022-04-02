@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.AbsListView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.skgram.MainActivity
 import com.example.skgram.Post
 import com.example.skgram.PostAdapter
@@ -24,7 +25,10 @@ open class FeedFragment : Fragment() {
 
     lateinit var adapter: PostAdapter
 
-    var allPosts: MutableList<Post> = mutableListOf()
+    lateinit var swipeContainer: SwipeRefreshLayout
+
+    //var allPosts: MutableList<Post> = mutableListOf()
+    var allPosts: ArrayList<Post> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +44,19 @@ open class FeedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // This is where views & onClickListeners are set up
+
+        // add swipe-to-refresh logic
+        swipeContainer = view.findViewById(R.id.swipeContainer)
+        swipeContainer.setOnRefreshListener {
+            Log.i(TAG, "Swipe-to-refresh is working")
+            queryPosts()
+        }
+
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+            android.R.color.holo_green_light,
+            android.R.color.holo_orange_light,
+            android.R.color.holo_red_light);
 
         postsRecyclerView = view.findViewById(R.id.postRecyclerView)
 
@@ -78,11 +95,11 @@ open class FeedFragment : Fragment() {
                     if (posts != null) {
                         for (post in posts) {
                             Log.i(TAG,"Post: " + post.getDescription() + " , username: " + post.getUser()?.username)
-
                         }
-
+                        adapter.clear()
                         allPosts.addAll(posts)
                         adapter.notifyDataSetChanged()
+                        swipeContainer.setRefreshing(false)
                     }
                 }
             }

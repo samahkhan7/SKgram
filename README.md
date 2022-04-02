@@ -1,6 +1,6 @@
 **SKgram** is a photo sharing app similar to Instagram but using Parse as its backend.
 
-Time spent: **5** hours spent in total on part 2 of the Instagram Clone assignment.
+Time spent: **6** hours spent in total on part 2 of the Instagram Clone assignment.
 
 ## User Stories
 
@@ -32,7 +32,8 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://i.imgur.com/QOHGnd6.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://i.imgur.com/bivTYrt.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+https://imgur.com/QOHGnd6
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 

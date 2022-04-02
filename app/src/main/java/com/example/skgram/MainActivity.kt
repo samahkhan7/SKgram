@@ -13,6 +13,11 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import com.example.skgram.fragments.ComposeFragment
+import com.example.skgram.fragments.FeedFragment
+import com.example.skgram.fragments.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.parse.*
 import java.io.File
@@ -32,10 +37,14 @@ class MainActivity : AppCompatActivity() {
         // 3. An ImageView to show the picture the user has taken
         // 4. A button to save and send the post to the Parse server
 
+        val fragmentManager: FragmentManager = supportFragmentManager
+
         findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnItemReselectedListener {
 
             // define our own variable to replace generic 'it' variable
             item ->
+
+            var fragmentToShow: Fragment? = null
 
             when (item.itemId) {
 
@@ -43,47 +52,34 @@ class MainActivity : AppCompatActivity() {
                 // when compose is clicked
                 // when profile is clicked
                 R.id.action_home -> {
-                    // TODO navigate to the Home screen
-                    Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show()
+                    fragmentToShow = FeedFragment()
+                    //Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show()
                 }
-                R.id.action_compose -> {// TODO navigate to the Compose screen
-                    Toast.makeText(this, "Compose", Toast.LENGTH_SHORT).show()
+                R.id.action_compose -> {
+                    fragmentToShow = ComposeFragment()
+                    //Toast.makeText(this, "Compose", Toast.LENGTH_SHORT).show()
                 }
-                R.id.action_profile -> {// TODO navigate to the Profile screen
-                    Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show()
+                R.id.action_profile -> {
+                    fragmentToShow = ProfileFragment()
+                    //Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show()
                 }
+            }
+
+            if (fragmentToShow != null) {
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragmentToShow).commit()
             }
 
             // return true to indicate we've handled this user interaction
             true
         }
 
+        findViewById<BottomNavigationView>(R.id.bottom_navigation).selectedItemId = R.id.action_home
+
      //   queryPosts()
     }
 
 
-    // Query for all posts in our server
-    fun queryPosts() {
-        // Specify which class to query
-        val query: ParseQuery<Post> = ParseQuery.getQuery(Post::class.java)
-        query.include(Post.KEY_USER)
-        query.findInBackground(object : FindCallback<Post> {
-            override fun done(posts: MutableList<Post>?, e:ParseException?) {
-                if (e != null) {
-                    // something went wrong
-                    Log.e(TAG, "Error fetching posts")
-                } else {
-                    if (posts != null) {
-                        for (post in posts) {
-                            Log.i(TAG,"Post: " + post.getDescription() + " , username: " + post.getUser()?.username)
 
-                        }
-                    }
-                }
-            }
-        })
-
-    }
 
     companion object {
         const val TAG = "MainActivity"
